@@ -1,0 +1,33 @@
+﻿@page "/diabetes-prediction"
+@using Assignment_2_task.Shared.Shared;
+@inject DiabetesPredictionService PredictionService
+
+<h3>Diabetes Prediction Form</h3>
+
+<EditForm Model="@diabetesInput" OnValidSubmit="@Predict">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label for="age">Age:</label>
+    <InputNumber id="age" @bind-Value="diabetesInput.Age" />
+
+    <!-- Add other input fields for hypertension, heart disease, BMI, HbA1c level, and blood glucose -->
+
+    <button type="submit">Predict</button>
+</EditForm>
+
+@if (predictionResult.HasValue)
+{
+    <p>Prediction Result: @predictionResult</p>
+}
+
+@code {
+    private DiabetesInput diabetesInput = new DiabetesInput();
+    private bool? predictionResult;
+
+    private void Predict()
+    {
+        predictionResult = PredictionService.PredictDiabetes(diabetesInput);
+    }
+}
+
