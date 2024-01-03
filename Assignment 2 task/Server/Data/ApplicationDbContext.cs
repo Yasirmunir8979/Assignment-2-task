@@ -10,6 +10,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<DiabetesInput> DiabetesInputs { get; set; }
+    public DbSet<Course> Courses { get; set; }
 }
 
 

@@ -1,16 +1,16 @@
 ﻿using Assignment_2_task.Shared.Shared;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System.Web.Http;
 
-namespace Assignment 2 Task.Server.Controllers
+namespace WebApiGrey.Server.Controllers
+{
+   [Route("api/[controller]")]
 [ApiController]
-[Route("api/[controller]")]
-public class DiabetesController : ControllerBase
+public class PredictionController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
 
-    public DiabetesController(ApplicationDbContext context)
+    public PredictionController(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -33,4 +33,4 @@ public class DiabetesController : ControllerBase
         return _context.DiabetesInputs.ToList();
     }
 }
-
+}

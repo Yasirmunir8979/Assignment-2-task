@@ -1,0 +1,60 @@
+﻿@page "/student-form"
+@using Assignment_2_task.Shared.Shared;
+
+<h3>Student Form</h3>
+
+<div>
+    <label for="name">Name:</label>
+    <input id="name" @bind="newStudent.Name" />
+</div>
+<div>
+    <label for="marks">Marks:</label>
+    <input id="marks" @bind="newStudent.Marks" />
+</div>
+<button @onclick="AddStudentAsync">Add Student</button>
+
+<h4>Students Below 50 Marks</h4>
+<ul>
+    @foreach (var student in studentsBelow50)
+    {
+        <li>@student.Name - @student.Marks</li>
+    }
+</ul>
+
+<h4>Students Between 50 and 85 Marks</h4>
+<ul>
+    @foreach (var student in studentsBetween50And85)
+    {
+        <li>@student.Name - @student.Marks</li>
+    }
+</ul>
+
+<h4>Students Above 85 Marks</h4>
+<ul>
+    @foreach (var student in studentsAbove85)
+    {
+        <li>@student.Name - @student.Marks</li>
+    }
+</ul>
+
+@code {
+    private Course newStudent = new Course();
+    private List<Course> studentsBelow50 = new List<Course>();
+    private List<Course> studentsBetween50And85 = new List<Course>();
+    private List<Course> studentsAbove85 = new List<Course>();
+
+    [Inject]
+    private StudentService StudentService { get; set; }
+
+    private async Task AddStudentAsync()
+    {
+        await StudentService.AddStudentAsync(newStudent);
+        newStudent = new Course(); // Clear the form after adding a student
+
+        // Update categorized lists
+        studentsBelow50 = await StudentService.GetStudentsBelow50Async();
+        studentsBetween50And85 = await StudentService.GetStudentsBetween50And85Async();
+        studentsAbove85 = await StudentService.GetStudentsAbove85Async();
+    }
+}
+
